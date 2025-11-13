@@ -1,0 +1,7 @@
+{
+  "name": "Stock Pilot",
+  "description": "Stock Pilot is an intelligent inventory management system that allows sellers to manage their stock in real-time using voice commands. Powered by Gemini, it supports adding, removing, and querying inventory items conversationally. The system uses Firebase for data storage and authentication.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
