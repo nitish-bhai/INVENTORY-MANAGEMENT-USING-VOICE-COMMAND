@@ -59,10 +59,12 @@ export const getInventorySummary = async (userId: string): Promise<string> => {
         return "Your inventory is currently empty.";
     }
 
-    const summary = items.map(item => `${item.quantity} ${item.name}`).join(', ');
     const totalItems = items.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-    
-    return `You have ${totalItems} total items in your inventory. They are: ${summary}.`;
+    const totalValue = items.reduce((sum, item) => sum + (Number(item.quantity) || 0) * (Number(item.pricePerItem) || 0), 0);
+
+    const summary = items.map(item => `${item.quantity} of ${item.name}`).join(', ');
+
+    return `You have ${totalItems} total items with a combined value of ₹${totalValue.toFixed(2)}. Your inventory includes: ${summary}.`;
 };
 
 

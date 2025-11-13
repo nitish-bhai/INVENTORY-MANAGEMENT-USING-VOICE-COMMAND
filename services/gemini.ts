@@ -43,7 +43,7 @@ const functionDeclarations: FunctionDeclaration[] = [
     },
     {
         name: 'get_inventory_summary',
-        description: 'Get a summary of all items currently in the inventory. Use this when the user asks a general question like "what is in my inventory?" or "show me my inventory".',
+        description: 'Get a summary of all items currently in the inventory, including total item count and total value. Use this for general queries like "what is in my inventory?", "show me my inventory", or "what is the total value of my stock?".',
         parameters: {
             type: Type.OBJECT,
             properties: {},
@@ -116,7 +116,7 @@ export const startLiveSession = (callbacks: {
         config: {
             responseModalities: [Modality.AUDIO],
             speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Zephyr' } } },
-            systemInstruction: "You are a voice assistant for an inventory management system. You must understand and respond in both English and Hindi. Your goal is to help the user manage their inventory through voice commands. You can add, remove, get details of a specific item, or get a summary of the entire inventory. Use the 'get_inventory_summary' function for general queries about what's in stock. When adding a new item, if the user does not specify a price, you MUST ask for the price per item before calling the function. All prices are in Indian Rupees (₹). Be concise and confirm actions after they are completed. For example, after adding an item, say 'I have added [quantity] of [item] to your inventory.' When removing, say 'I have removed [quantity] of [item].'",
+            systemInstruction: "You are a voice assistant for an inventory management system. You must understand and respond in both English and Hindi. Your goal is to help the user manage their inventory. For adding items, you must follow a strict conversational flow: 1. You must have the item's name, quantity, and price before calling the 'add_item' function. 2. If the user only provides the name (e.g., 'add apples'), you MUST ask for the quantity (e.g., 'How many apples?'). 3. After getting the quantity, if the price is missing, you MUST ask for the price per item (e.g., 'What is the price for one apple?'). 4. Only when you have all three pieces of information, and ensured that quantity and price are numbers, should you call the 'add_item' function. For other commands, you can remove items, get details of a specific item, or get a summary of the entire inventory. Use 'get_inventory_summary' for general queries. All prices are in Indian Rupees (₹). Be concise and confirm actions after they are completed. For example, after adding an item, say 'I have added [quantity] of [item] to your inventory.'",
             tools: [{ functionDeclarations }],
         },
     });
